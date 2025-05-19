@@ -19,8 +19,19 @@ const FormPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
        // Validation check
+       const nameRegex = /^[A-Za-z\s]+$/;
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
        if (!fullname || !email || !age || !gender || !description) {
         toast.error("All fields are required!");
+        return;
+      }
+      if (!nameRegex.test(fullname)) {
+        toast.error("Fullname should not contain numbers or special characters.");
+        return;
+      }
+    
+      if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address.");
         return;
       }
     const queryParams = new URLSearchParams({
@@ -70,7 +81,7 @@ const FormPage = () => {
             type="number"
             label="Age"
             value={age}
-            onChange={(value) => setAge(value.toString())}
+            onChange={(value) => setAge(value as string)}
             placeholder="Enter your age"
           />
           <CustomDropdown
